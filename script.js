@@ -23,7 +23,7 @@ function onAddItemSubmit(e) {
     return;
   }
 
-  // Check is edit mode
+  // Check for edit mode
   if (isEditMode) {
     const itemToEdit = itemList.querySelector(".edit-mode");
 
@@ -31,6 +31,11 @@ function onAddItemSubmit(e) {
     itemToEdit.classList.remove("edit-mode");
     itemToEdit.remove();
     isEditMode = false;
+  } else {
+    if (checkIfItemExists(newItem)) {
+      alert("Vec ste to dodali na listu!");
+      return;
+    }
   }
 
   // Create item DOM element
@@ -43,7 +48,6 @@ function onAddItemSubmit(e) {
 
   itemInput.value = "";
 }
-
 function addItemToDOM(item) {
   // Create list item
   const li = document.createElement("li");
@@ -105,6 +109,16 @@ function onClickItem(e) {
     removeItem(e.target.parentElement.parentElement);
   } else if (e.target.tagName === "LI") {
     setItemToEdit(e.target);
+  }
+}
+
+function checkIfItemExists(item) {
+  const itemsFromStorage = getItemsFromStorage();
+
+  if (itemsFromStorage.includes(item)) {
+    return true;
+  } else {
+    return false;
   }
 }
 
